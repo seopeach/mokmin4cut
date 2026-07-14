@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="웹 브라우저에서 사진과 영상을 촬영할 수 있는 AI 포토부스">
+  <title>Snap4U | Premium AI Photobooth</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Landing / Start Screen -->
+  <div id="startScreen" class="overlay-screen">
+    <div class="glass-card start-card">
+      <div class="brand-logo">목민네컷</div>
+      <h1 class="hero-title">브라우저에서 바로 찍는<br>나만의 AI 포토부스</h1>
+      <p class="hero-desc">
+        별도의 앱 설치 없이 사진과 영상을 촬영하고,<br>
+        원하는 감성 프레임과 실시간 보정 효과를 적용해 보세요.
+      </p>
+      <div class="cta-buttons">
+        <button type="button" id="startPhotoMode" class="button button-primary button-lg">
+          <span class="icon">📸</span> 사진 촬영 시작
+        </button>
+        <button type="button" id="startVideoMode" class="button button-secondary button-lg">
+          <span class="icon">🎥</span> 영상 촬영 시작
+        </button>
+      </div>
+      <div class="start-meta">
+        <p>🔒 촬영된 사진과 영상은 서버에 저장되지 않고 오직 본인 기기에서만 처리됩니다.</p>
+        <p class="camera-req">⚙️ 카메라 사용 권한이 필요합니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="#" id="headerLogo" class="logo" aria-label="Snap4U 홈">Snap4U</a>
+      <p id="stepIndicator" class="step-indicator">STEP 1. 촬영 준비</p>
+      <button type="button" id="settingsToggle" class="icon-button" aria-label="설정 열기">⚙️</button>
+    </div>
+  </header>
+
+  <nav class="mode-navigation" aria-label="촬영 메뉴">
+    <button type="button" data-view="photo" class="nav-tab is-active" aria-current="page">사진 촬영</button>
+    <button type="button" data-view="video" class="nav-tab">영상 촬영</button>
+    <button type="button" data-view="frame" class="nav-tab">프레임 및 보정</button>
+    <button type="button" data-view="result" class="nav-tab" disabled>촬영 결과</button>
+  </nav>
+
+  <main class="main-content">
+    <!-- Camera Section -->
+    <section class="camera-section" aria-labelledby="camera-title">
+      <div class="section-heading">
+        <p class="eyebrow">CAMERA</p>
+        <h1 id="camera-title">나만의 네컷 사진을 찍어보세요</h1>
+      </div>
+
+      <div class="camera-layout">
+        <div class="camera-stage-wrapper">
+          <div id="cameraStage" class="camera-stage aspect-3-4">
+            <video id="cameraPreview" autoplay muted playsinline></video>
+            <canvas id="captureCanvas" hidden></canvas>
+            <div id="frameOverlay" class="frame-overlay" aria-hidden="true"></div>
+            <div id="flashEffect" class="flash-effect"></div>
+            <div id="countdown" class="countdown" aria-live="assertive"></div>
+            <p id="cameraStatus" class="camera-status" aria-live="polite">카메라 연결을 기다리고 있습니다.</p>
+          </div>
+        </div>
+
+        <section class="control-panel" aria-labelledby="control-title">
+          <h2 id="control-title">촬영 설정</h2>
+
+          <fieldset class="control-group">
+            <legend>촬영 비율</legend>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="cameraRatio" value="portrait" checked>
+                <span>세로형 (3:4)</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="cameraRatio" value="landscape">
+                <span>가로형 (4:3)</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="control-group">
+            <legend>촬영 모드</legend>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="captureMode" value="photo" checked>
+                <span>사진</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="captureMode" value="video">
+                <span>영상</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="control-group" id="timerGroup">
+            <label for="timerSelect">촬영 타이머</label>
+            <select id="timerSelect">
+              <option value="0">바로 촬영</option>
+              <option value="3" selected>3초</option>
+              <option value="5">5초</option>
+              <option value="10">10초</option>
+            </select>
+          </div>
+
+          <div class="control-group" id="shotCountGroup">
+            <label for="shotCount">촬영 장수</label>
+            <select id="shotCount">
+              <option value="1">1장</option>
+              <option value="2">2장</option>
+              <option value="4" selected>4장 (인생네컷)</option>
+            </select>
+          </div>
+
+          <div class="control-group id-video-duration-group" id="videoDurationGroup" style="display: none;">
+            <label for="videoDurationSelect">영상 녹화 시간</label>
+            <select id="videoDurationSelect">
+              <option value="3">3초</option>
+              <option value="5" selected>5초</option>
+              <option value="10">10초</option>
+            </select>
+          </div>
+
+          <div class="button-group vertical-buttons">
+            <button type="button" id="startCameraButton" class="button button-secondary">
+              🔌 카메라 연결
+            </button>
+            <button type="button" id="switchCameraButton" class="button button-secondary">
+              🔄 카메라 전환
+            </button>
+            <button type="button" id="captureButton" class="button button-primary" disabled>
+              📸 촬영 시작
+            </button>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- Frame Selection Section -->
+    <section class="frame-section" aria-labelledby="frame-title" style="display: none;">
+      <div class="section-heading">
+        <p class="eyebrow">FRAME</p>
+        <h2 id="frame-title">프레임 디자인을 선택하세요</h2>
+      </div>
+
+      <ul class="frame-list">
+        <li>
+          <button type="button" class="frame-card is-selected" data-frame="white" aria-pressed="true">
+            <span class="frame-preview frame-white"></span>
+            <span class="frame-name">클래식 화이트</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="frame-card" data-frame="black">
+            <span class="frame-preview frame-black"></span>
+            <span class="frame-name">매트 블랙</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="frame-card" data-frame="pink">
+            <span class="frame-preview frame-pink"></span>
+            <span class="frame-name">베이비 핑크</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="frame-card" data-frame="blue">
+            <span class="frame-preview frame-blue"></span>
+            <span class="frame-name">스카이 블루</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="frame-card" data-frame="dots">
+            <span class="frame-preview frame-dots"></span>
+            <span class="frame-name">레트로 도트</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="frame-card" data-frame="stars">
+            <span class="frame-preview frame-stars"></span>
+            <span class="frame-name">스타 나이트</span>
+          </button>
+        </li>
+      </ul>
+
+      <div class="frame-customizer glass-card">
+        <h3>🎨 프레임 상세 꾸미기</h3>
+        <div class="customizer-grid">
+          <div class="control-group">
+            <label for="boothTitleInput">네컷 문구 입력 (하단 표시)</label>
+            <input type="text" id="boothTitleInput" value="목민네컷" placeholder="예: OO네컷" maxlength="15">
+          </div>
+          <div class="control-group">
+            <label for="frameText">상세 메시지 입력 (가운데 표시)</label>
+            <input type="text" id="frameText" placeholder="예: 우리들만의 추억" maxlength="20">
+          </div>
+          <div class="control-group checkbox-control">
+            <label class="toggle-control">
+              <input type="checkbox" id="showDate" checked>
+              <span>오늘 날짜 표시</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Retouch & Filter Section -->
+    <section class="retouch-section" aria-labelledby="retouch-title" style="display: none;">
+      <div class="section-heading">
+        <p class="eyebrow">RETOUCH</p>
+        <h2 id="retouch-title">사진 및 미리보기 보정</h2>
+      </div>
+
+      <div class="retouch-panel glass-card">
+        <label class="toggle-control main-toggle">
+          <input type="checkbox" id="retouchToggle" checked>
+          <span class="toggle-track"></span>
+          <span class="toggle-label">실시간 보정 효과 활성화</span>
+        </label>
+
+        <div class="sliders-container">
+          <div class="range-control">
+            <div class="range-header">
+              <label for="brightnessRange">밝기 (Brightness)</label>
+              <span id="brightnessVal">105%</span>
+            </div>
+            <input type="range" id="brightnessRange" min="80" max="130" value="105">
+          </div>
+
+          <div class="range-control">
+            <div class="range-header">
+              <label for="contrastRange">대비 (Contrast)</label>
+              <span id="contrastVal">100%</span>
+            </div>
+            <input type="range" id="contrastRange" min="80" max="130" value="100">
+          </div>
+
+          <div class="range-control">
+            <div class="range-header">
+              <label for="saturationRange">채도 (Saturation)</label>
+              <span id="saturationVal">105%</span>
+            </div>
+            <input type="range" id="saturationRange" min="70" max="140" value="105">
+          </div>
+
+          <div class="range-control">
+            <div class="range-header">
+              <label for="blurRange">피부 뽀샤시 (Soft Glow)</label>
+              <span id="blurVal">1px</span>
+            </div>
+            <input type="range" id="blurRange" min="0" max="6" step="0.5" value="1">
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <h3>🎬 감성 자연 필터</h3>
+          <div class="filter-list">
+            <button type="button" class="filter-btn is-active" data-filter="normal">기본</button>
+            <button type="button" class="filter-btn" data-filter="bright">뽀샤시 (Bright)</button>
+            <button type="button" class="filter-btn" data-filter="peach">피치 웜 (Peach)</button>
+            <button type="button" class="filter-btn" data-filter="clear">맑은 쿨 (Clear)</button>
+            <button type="button" class="filter-btn" data-filter="film">레트로 필름 (Retro)</button>
+            <button type="button" class="filter-btn" data-filter="mono">감성 흑백 (Mono)</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Result Section -->
+    <section class="result-section" aria-labelledby="result-title" style="display: none;">
+      <div class="section-heading">
+        <p class="eyebrow">RESULT</p>
+        <h2 id="result-title">촬영 결과</h2>
+      </div>
+
+      <div class="photo-grid-wrapper glass-card">
+        <h3>📸 컷별 촬영 이미지 (순서 변경 / 개별 삭제)</h3>
+        <div id="photoGrid" class="photo-grid" aria-live="polite"></div>
+        <p class="grid-helper">드래그 앤 드롭 또는 화살표 버튼으로 이미지 순서를 바꾸거나, 🔄 버튼으로 재촬영할 수 있습니다.</p>
+      </div>
+
+      <div class="result-layout">
+        <div class="final-result glass-card">
+          <h3>🖼️ 최종 합성 프레임</h3>
+          <div class="canvas-container">
+            <canvas id="resultCanvas"></canvas>
+          </div>
+        </div>
+
+        <aside class="download-panel glass-card">
+          <h3>📥 결과물 소장하기</h3>
+
+          <div class="qr-wrapper">
+            <canvas id="qrCodeArea" class="qr-code-area" width="160" height="160" aria-label="다운로드 QR코드"></canvas>
+            <p class="qr-time-limit">⏱️ 다운로드 유효 시간: <span id="qrTimer">03:00</span></p>
+          </div>
+
+          <p class="download-desc">
+            스마트폰 카메라로 QR코드를 스캔하여 완성된 사진을 모바일로 즉시 공유하고 저장할 수 있습니다.
+          </p>
+
+          <div class="button-group vertical-buttons">
+            <button type="button" id="downloadImageButton" class="button button-primary button-lg">
+              💾 이미지 즉시 다운로드 (.png)
+            </button>
+            <button type="button" id="downloadVideoButton" class="button button-secondary button-lg" disabled>
+              🎥 영상 저장 (.webm)
+            </button>
+            <button type="button" id="shareButton" class="button button-secondary button-lg">
+              🔗 모바일로 공유하기
+            </button>
+            <button type="button" id="restartButton" class="button button-text">
+              ✨ 처음부터 다시 촬영
+            </button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <aside class="guide-panel glass-card">
+      <h2>💡 촬영 가이드 및 안내</h2>
+      <ul>
+        <li>카메라가 얼굴 정면을 향하도록 거리와 높이를 조절해주세요.</li>
+        <li>안정적인 캡처를 위해 촬영 중 브라우저 창을 닫거나 새로고침하지 마세요.</li>
+        <li><strong>개인정보 보호:</strong> 목민네컷은 오직 사용자의 웹 브라우저 내에서만 이미지를 처리하며 외부 서버로 어떠한 사진 정보도 전송하지 않아 완전히 안전합니다.</li>
+        <li>카메라 권한을 얻을 수 없는 경우, 촬영 시작 버튼을 누르면 테스트용 예쁜 사진 세트가 대신 불러와집니다.</li>
+      </ul>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 Snap4U. All rights reserved.</p>
+    <p>촬영된 이미지 및 비디오는 현재 브라우저 샌드박스에서만 보관·처리됩니다.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
