@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="웹 브라우저에서 사진과 영상을 촬영할 수 있는 AI 포토부스">
   <title>목민네컷 | 목민청년만을 위한 포토부스</title>
-  <link rel="preload" href="./fonts/PretendardVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./fonts/PretendardVariable.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="./fonts/KERISKEDU_B.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="./fonts/NeoDunggeunmo.woff" as="font" type="font/woff" crossorigin>
   <link rel="preload" href="./fonts/OiNaeng.otf" as="font" type="font/otf" crossorigin>
@@ -172,56 +172,45 @@
                 <span>세로 네컷</span>
               </label>
               <label class="radio-label">
-                <input type="radio" name="outputRatio" value="landscape43">
-                <span>가로 4:3</span>
-              </label>
-              <label class="radio-label">
                 <input type="radio" name="outputRatio" value="landscape34">
-                <span>프레임 3:4</span>
+                <span>가로 3:4</span>
               </label>
-            </div>
+</div>
           </div>
 
           <div class="glass-card editor-card">
             <h3>프레임 디자인</h3>
             <ul class="frame-list">
               <li><button type="button" class="frame-card is-selected" data-frame="white" aria-pressed="true"><span class="frame-preview frame-white"></span><span class="frame-name">클래식 화이트</span></button></li>
-              <li><button type="button" class="frame-card" data-frame="black"><span class="frame-preview frame-black"></span><span class="frame-name">매트 블랙</span></button></li>
-              <li><button type="button" class="frame-card" data-frame="pink"><span class="frame-preview frame-pink"></span><span class="frame-name">키치 폰 핑크</span></button></li>
-              <li><button type="button" class="frame-card" data-frame="blue"><span class="frame-preview frame-blue"></span><span class="frame-name">블루 러브패드</span></button></li>
-              <li><button type="button" class="frame-card" data-frame="chrome"><span class="frame-preview frame-chrome"></span><span class="frame-name">크롬 엔젤</span></button></li>
-              <li><button type="button" class="frame-card" data-frame="dots"><span class="frame-preview frame-dots"></span><span class="frame-name">캔디 도트</span></button></li>
-              <li><button type="button" class="frame-card" data-frame="bubble"><span class="frame-preview frame-bubble"></span><span class="frame-name">버블 글로우</span></button></li>
-              <li><button type="button" class="frame-card" data-frame="checker"><span class="frame-preview frame-checker"></span><span class="frame-name">하이틴 체커</span></button></li>
-              <li><button type="button" class="frame-card" data-frame="confetti"><span class="frame-preview frame-confetti"></span><span class="frame-name">스티커 파티</span></button></li>
-              <li><button type="button" class="frame-card" data-frame="faith"><span class="frame-preview frame-faith"></span><span class="frame-name">은혜의 빛</span></button></li>
-              <li><button type="button" class="frame-card" data-frame="clover"><span class="frame-preview frame-clover"></span><span class="frame-name">행운 클로버</span></button></li>
-              <li><button type="button" class="frame-card" data-frame="heart"><span class="frame-preview frame-heart"></span><span class="frame-name">러블리 하트</span></button></li>
+              <li><button type="button" class="frame-card" data-frame="black" aria-pressed="false"><span class="frame-preview frame-black"></span><span class="frame-name">클래식 블랙</span></button></li>
+              <li><button type="button" class="frame-card" data-frame="angel" aria-pressed="false"><span class="frame-preview frame-angel"></span><span class="frame-name">엔젤 스카이</span></button></li>
+              <li><button type="button" class="frame-card" data-frame="phone" aria-pressed="false"><span class="frame-preview frame-phone"></span><span class="frame-name">키치 폰 하트</span></button></li>
+              <li><button type="button" class="frame-card" data-frame="doodle" aria-pressed="false"><span class="frame-preview frame-doodle"></span><span class="frame-name">해피 두들 파티</span></button></li>
+              <li><button type="button" class="frame-card" data-frame="scribble" aria-pressed="false"><span class="frame-preview frame-scribble"></span><span class="frame-name">스크리블 토크</span></button></li>
+              <li><button type="button" class="frame-card" data-frame="clover" aria-pressed="false"><span class="frame-preview frame-clover"></span><span class="frame-name">럭키 클로버</span></button></li>
+              <li><button type="button" class="frame-card" data-frame="pixel" aria-pressed="false"><span class="frame-preview frame-pixel"></span><span class="frame-name">픽셀 플레이</span></button></li>
+              <li><button type="button" class="frame-card" data-frame="violet" aria-pressed="false"><span class="frame-preview frame-violet"></span><span class="frame-name">바이올렛 클라우드</span></button></li>
+              <li><button type="button" class="frame-card" data-frame="chrome" aria-pressed="false"><span class="frame-preview frame-chrome"></span><span class="frame-name">크롬 엔젤</span></button></li>
             </ul>
           </div>
 
           <div class="frame-customizer glass-card editor-card">
             <h3>🎨 프레임 상세 꾸미기</h3>
             <div class="customizer-grid">
-              <div class="text-input-row">
-                <div class="control-group booth-title-group">
-                  <label for="boothTitleInput">네컷 문구 입력</label>
-                  <input type="text" id="boothTitleInput" value="목민네컷" placeholder="예: OO네컷" maxlength="15">
-                </div>
-                <div class="control-group message-input-group">
-                  <label for="frameText">상세 메시지 입력</label>
-                  <input type="text" id="frameText" placeholder="예: 우리들만의 추억" maxlength="20">
-                </div>
+              <div class="control-group booth-title-group">
+                <label for="boothTitleInput">네컷 문구 입력</label>
+                <input type="text" id="boothTitleInput" value="목민네컷" placeholder="예: OO네컷" maxlength="15">
+                <fieldset class="control-group title-font-control inline-title-font-control">
+                  <legend>네컷 문구 느낌</legend>
+                  <div class="title-font-options" role="radiogroup" aria-label="네컷 문구 글꼴 느낌">
+                    <label class="font-option font-basic"><input type="radio" name="titleFont" value="basic" checked><span>기본</span></label>
+                    <label class="font-option font-round"><input type="radio" name="titleFont" value="round"><span>동글동글</span></label>
+                    <label class="font-option font-retro"><input type="radio" name="titleFont" value="retro"><span>레트로</span></label>
+                    <label class="font-option font-modern"><input type="radio" name="titleFont" value="modern"><span>모던</span></label>
+                  </div>
+                </fieldset>
               </div>
-              <fieldset class="control-group title-font-control inline-title-font-control">
-                <legend>네컷 문구 느낌</legend>
-                <div class="title-font-options" role="radiogroup" aria-label="네컷 문구 글꼴 느낌">
-                  <label class="font-option font-basic"><input type="radio" name="titleFont" value="basic" checked><span>기본</span></label>
-                  <label class="font-option font-round"><input type="radio" name="titleFont" value="round"><span>동글동글</span></label>
-                  <label class="font-option font-retro"><input type="radio" name="titleFont" value="retro"><span>레트로</span></label>
-                  <label class="font-option font-modern"><input type="radio" name="titleFont" value="modern"><span>모던</span></label>
-                </div>
-              </fieldset>
+              <div class="control-group"><label for="frameText">상세 메시지 입력</label><input type="text" id="frameText" placeholder="예: 우리들만의 추억" maxlength="20"></div>
               <div class="control-group checkbox-control">
                 <label class="checkbox-label" for="showDate">
                   <input type="checkbox" id="showDate" checked>
@@ -234,16 +223,6 @@
 
           <div class="retouch-panel glass-card editor-card">
             <label class="toggle-control main-toggle"><input type="checkbox" id="retouchToggle" checked><span class="toggle-track"></span><span class="toggle-label">보정 효과 활성화</span></label>
-            <fieldset class="ai-face-retouch-group">
-              <legend>✨ AI 자동 얼굴 보정</legend>
-              <p class="ai-face-retouch-desc">얼굴을 자동으로 찾아 눈과 얼굴선을 자연스럽게 정돈합니다. 최종 미리보기와 다운로드 결과에 반영됩니다.</p>
-              <div class="ai-face-levels" role="radiogroup" aria-label="AI 자동 얼굴 보정 단계">
-                <label class="ai-face-level"><input type="radio" name="faceRetouchLevel" value="0" checked><span><strong>기본</strong><small>원본 얼굴형 유지</small></span></label>
-                <label class="ai-face-level"><input type="radio" name="faceRetouchLevel" value="1"><span><strong>1단계</strong><small>눈 +3% · 얼굴선 정돈</small></span></label>
-                <label class="ai-face-level"><input type="radio" name="faceRetouchLevel" value="2"><span><strong>2단계</strong><small>눈 +6% · 슬림 보정</small></span></label>
-              </div>
-              <p id="faceRetouchStatus" class="ai-face-status" aria-live="polite">기본 상태입니다.</p>
-            </fieldset>
             <div class="sliders-container">
               <div class="range-control"><div class="range-header"><label for="brightnessRange">밝기</label><span id="brightnessVal">105%</span></div><input type="range" id="brightnessRange" min="80" max="130" value="105"></div>
               <div class="range-control"><div class="range-header"><label for="contrastRange">대비</label><span id="contrastVal">100%</span></div><input type="range" id="contrastRange" min="80" max="130" value="100"></div>
